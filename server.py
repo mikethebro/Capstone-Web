@@ -1,5 +1,6 @@
 import tornado.ioloop
 import tornado.web
+import os
 
 import mathfile
 
@@ -15,12 +16,17 @@ class MainHandler(tornado.web.RequestHandler):
     	result = mathfile.do_math(8, 11)
         self.render("template.html", myvalue="Boring Title", text=result)
 
-def make_app():
-    return tornado.web.Application([
+def main():
+    application = tornado.web.Application([
         (r"/", MainHandler),
     ])
+    http_server = tornado.httpserver.HTTPServer(application)
+    port = int(os.environ.get("PORT", 5000))
+    http_server.listen(port)
+    tornado.ioloop.IOLoop.instance().start()
+    #app = make_app()
+    #app.listen(8888)
+    #tornado.ioloop.IOLoop.current().start()
 
 if __name__ == "__main__":
-    app = make_app()
-    app.listen(8888)
-    tornado.ioloop.IOLoop.current().start()
+	main()
