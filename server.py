@@ -14,7 +14,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
     	result = mathfile.do_math(8, 11)
-        self.render("template.html", myvalue="Boring Title", text=result)
+    	self.render("template.html", myvalue="Boring Title", text=result)
 
 def main():
     application = tornado.web.Application([
