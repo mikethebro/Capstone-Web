@@ -2,6 +2,8 @@
 <head>
 	<title>Capstone</title>
 	<link rel="stylesheet" type="text/css" href="{{ static_url("main.css") }}">
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script src="{{ static_url("sample_chart.js") }}"></script>
 </head>
 <body>
 	<h1>Honors Capstone</h1>
@@ -22,4 +24,21 @@
         <input type="submit" value="Run Algo"/>
         </form>
 	<p>{{ text }}</p>
+
+	<p style="text-align: center;">Bitcoin results</p>
+      <div id="chart" style="height=100%;"></div>
+      <div id="chart-zoom" style="height=100%;"></div>
+      <script>
+      var data = [predict, bitcoin_norm];
+      var layout = {
+      xaxis: {
+        range: [0, 1116]
+      },
+      yaxis: {
+        range: [-0.0025, 0.0025]
+        }
+      };
+      Plotly.newPlot('chart', data);
+      Plotly.newPlot('chart-zoom', data, layout);
+      </script>
 </html>
