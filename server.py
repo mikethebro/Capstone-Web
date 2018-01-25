@@ -8,17 +8,27 @@ import MovingAverageCrossoverTrader as mva
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-    	self.render("template.html", text="")
+    	self.render("template.html", mva_days="", cash="", text="", btc_checked="", eth_checked="")
 
     def post(self):
-        mva_days = int(self.get_argument('mva_days'))
-        start_cash = int(self.get_argument('cash'))
-        currency = "ETH"
-        filename = "prices/5-minute/ethereum.txt"
-        trader = mva.MovingAverageCrossoverTrader(currency, mva_days, True, start_cash, filename)
+        mva_days_input = int(self.get_argument('mva_days'))
+        cash_input = int(self.get_argument('cash'))
+        currency = self.get_argument('currency')
+        btc_checked = ""
+        eth_checked = ""
+        filename = ""
+        if (currency == "BTC"):
+            btc_checked = "checked"
+            eth_checked = ""
+            filename = "prices/5-minute/bitcoin.txt"
+        elif (currency == "ETH"):
+            filename = "prices/5-minute/ethereum.txt"
+            eth_checked = "checked"
+            btc_checked = ""
+        trader = mva.MovingAverageCrossoverTrader(currency, mva_days_input, True, cash_input, filename)
         trader.trade()
         results = trader.results()
-        self.render("template.html", text=results)
+        self.render("template.html", mva_days=mva_days_input, cash=cash_input, text=results, btc_checked=btc_checked, eth_checked=eth_checked)
 
 class Server(tornado.web.Application):
     def __init__(self):

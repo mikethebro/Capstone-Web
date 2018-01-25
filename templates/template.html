@@ -7,9 +7,19 @@
 	<h1>Honors Capstone</h1>
 	<h3>Mike Ward</h3>
 	<form method="post">
-        <input type="text" name="mva_days"/>
-        <input type="text" name="cash"/>
-        <input type="submit" text="Run Algo"/>
+		<label for="mva_days">MVA</label>
+        <input type="text" value="{{ mva_days }}" name="mva_days"/>
+        <br/>
+        <label for="cash">Starting Cash</label>
+        <input type="text" value="{{ cash }}" name="cash"/>
+        <br/>
+        <input type="radio" name="currency" id="btc" value="BTC" {{ btc_checked }}>
+        <label for="btc">Bitcoin</label>
+  		<br>
+  		<input type="radio" name="currency" id="eth" value="ETH" {{ eth_checked }}>
+  		<label for="eth">Ethereum</label>
+  		<br>
+        <input type="submit" value="Run Algo"/>
         </form>
 	<p>{{ text }}</p>
 </html>
