@@ -40,17 +40,15 @@ class MainHandler(tornado.web.RequestHandler):
         results = trader.results()
         price_line = trader.get_price_line()
         mva_line = trader.get_mva_line()
-        mva_x = range(mva_days_input, len(mva_line) + mva_days_input)
-        price_x = range(0, len(price_line))
         self.render("template.html",
             mva_days=mva_days_input,
             cash=cash_input,
             text=results,
             btc_checked=btc_checked,
             eth_checked=eth_checked,
-            price_data_x=price_x,
+            price_data_x=list(range(0, len(price_line))),
             price_data_y=price_line,
-            mva_data_x=mva_x,
+            mva_data_x=list(range(mva_days_input, len(mva_line) + mva_days_input)),
             mva_data_y=mva_line
             )
 
