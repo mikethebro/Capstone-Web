@@ -3,7 +3,6 @@
 	<title>Capstone</title>
 	<link rel="stylesheet" type="text/css" href="{{ static_url("main.css") }}">
 	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-	<script src="{{ static_url("sample_chart.js") }}"></script>
 </head>
 <body>
 	<h1>Honors Capstone</h1>
@@ -11,6 +10,7 @@
 	<form method="post">
 		<label for="mva_days">MVA</label>
         <input type="text" value="{{ mva_days }}" name="mva_days"/>
+        in a multiple of 5 minutes
         <br/>
         <label for="cash">Starting Cash</label>
         <input type="text" value="{{ cash }}" name="cash"/>
@@ -27,18 +27,28 @@
 
 	<p style="text-align: center;">Bitcoin results</p>
       <div id="chart" style="height=100%;"></div>
-      <div id="chart-zoom" style="height=100%;"></div>
       <script>
-      var data = [predict, bitcoin_norm];
+      var price_line = {
+      	x: {{ price_data_x }},
+      	y: {{ price_data_y }},
+      	type: 'scatter',
+		name: 'trend'
+      };
+      var mva_line = {
+      	x: {{ mva_data_x }},
+      	y: {{ mva_data_y }},
+      	type: 'scatter',
+		name: 'trend'
+      };
+      var data = [price_line, mva_line];
       var layout = {
       xaxis: {
-        range: [0, 1116]
+        range: [0, 5]
       },
       yaxis: {
-        range: [-0.0025, 0.0025]
+        range: [0, 20]
         }
       };
       Plotly.newPlot('chart', data);
-      Plotly.newPlot('chart-zoom', data, layout);
       </script>
 </html>

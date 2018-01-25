@@ -8,7 +8,17 @@ import MovingAverageCrossoverTrader as mva
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
-    	self.render("template.html", mva_days="", cash="", text="", btc_checked="", eth_checked="")
+    	self.render("template.html",
+            mva_days="",
+            cash="",
+            text="",
+            btc_checked="",
+            eth_checked="",
+            price_data_x=[],
+            price_data_y=[],
+            mva_data_x=[],
+            mva_data_y=[]
+            )
 
     def post(self):
         mva_days_input = int(self.get_argument('mva_days'))
@@ -28,7 +38,19 @@ class MainHandler(tornado.web.RequestHandler):
         trader = mva.MovingAverageCrossoverTrader(currency, mva_days_input, True, cash_input, filename)
         trader.trade()
         results = trader.results()
-        self.render("template.html", mva_days=mva_days_input, cash=cash_input, text=results, btc_checked=btc_checked, eth_checked=eth_checked)
+        price_line = trader.get_price_line()
+        mva_line = trader.get_mva_line()
+        self.render("template.html",
+            mva_days=mva_days_input,
+            cash=cash_input,
+            text=results,
+            btc_checked=btc_checked,
+            eth_checked=eth_checked,
+            price_data_x=range(0, len(price_line)),
+            price_data_y=price_line,
+            mva_data_x=range(mva_days_input, len(mva_line) + mva_days_input),
+            mva_data_y=mva_line
+            )
 
 class Server(tornado.web.Application):
     def __init__(self):
