@@ -15,6 +15,8 @@ class MainHandler(tornado.web.RequestHandler):
             btc_checked="",
             eth_checked="",
             ltc_checked="",
+            bch_checked="",
+            xrp_checked="",
             price_data_x=[],
             price_data_y=[],
             mva_data_x=[],
@@ -28,6 +30,8 @@ class MainHandler(tornado.web.RequestHandler):
         btc_checked = ""
         eth_checked = ""
         ltc_checked = ""
+        bch_checked = ""
+        xrp_checked = ""
         filename = ""
         if (currency == "BTC"):
             btc_checked = "checked"
@@ -38,6 +42,12 @@ class MainHandler(tornado.web.RequestHandler):
         elif (currency == "LTC"):
             filename = "prices/5-minute/litecoin.txt"
             ltc_checked = "checked"
+        elif (currency == "BCH"):
+            filename = "prices/5-minute/bitcoin-cash.txt"
+            bch_checked = "checked"
+        elif (currency == "XRP"):
+            filename = "prices/5-minute/ripple.txt"
+            xrp_checked = "checked"
         trader = mva.MovingAverageCrossoverTrader(currency, mva_days_input, True, cash_input, filename)
         trader.trade()
         results = trader.results()
@@ -50,6 +60,8 @@ class MainHandler(tornado.web.RequestHandler):
             btc_checked=btc_checked,
             eth_checked=eth_checked,
             ltc_checked=ltc_checked,
+            bch_checked=bch_checked,
+            xrp_checked=xrp_checked,
             price_data_x=list(range(0, len(price_line))),
             price_data_y=price_line,
             mva_data_x=list(range(mva_days_input, len(mva_line) + mva_days_input)),
